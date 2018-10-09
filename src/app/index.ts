@@ -15,7 +15,7 @@ import tw = require('./template-writer');
 
 module.exports = class TheiaPlugin extends Base {
 
-    static const SUPPORTED_LICENSES = [
+    static SUPPORTED_LICENSES = [
         'MIT',
         'EPL-2.0'
     ];
@@ -73,7 +73,7 @@ module.exports = class TheiaPlugin extends Base {
             alias: 't',
             description: 'The version of Theia to use',
             type: String,
-            default: 'next'
+            default: 'latest'
         });
 
         this.option('template', {
@@ -197,6 +197,7 @@ module.exports = class TheiaPlugin extends Base {
         const packageName = pluginName + '-plugin';
         const publisher = options.publisher ? options.publisher as string : 'theia';
         const frontendModuleName = `${publisher}_${packageName}`.replace(/\W/g, '_');
+        const author = options.author || '';
 
         let licenseId = options.license;
         let header: string;
@@ -210,12 +211,12 @@ module.exports = class TheiaPlugin extends Base {
             header = '';
         } else {
             header = this.fs.read(path.resolve(__dirname, '../../', 'templates/licenses/', licenseId, 'license-header'));
-            header = header.replace(/{author}/g, options.author);
+            header = header.replace(/{author}/g, author);
             header = header.replace(/{date}/g, creationYear);
         }
 
         this.params = {
-            author: options.author,
+            author: author,
             publisher: publisher,
             version: options.version,
             license: { id: licenseId, header: header },

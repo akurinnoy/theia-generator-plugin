@@ -9,13 +9,13 @@
         "moduleResolution": "node",
         "target": "es5",
         "lib": [
-            "es6",
-            <% if (params.isFrontend) { %>
-            "webworker"
-            <% } %>
-            <% if (params.isBackend) { %>
-            "webworker"
-            <%} %>
+            "es6",<%
+            if (params.isFrontend) { %>
+            "webworker"<%
+            } %><%
+            if (params.isBackend) { %>
+            "webworker"<%
+            } %>
         ],
         "sourceMap": true,
         "rootDir": "src",
